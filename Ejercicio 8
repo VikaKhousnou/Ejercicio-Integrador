@@ -1,0 +1,78 @@
+class Cuenta:
+    def __init__(self, titular, cantidad=0):
+        self.titular = titular
+        self.cantidad = cantidad
+
+    @property
+    def titular(self):
+        return self._titular
+
+    @titular.setter
+    def titular(self, titular):
+        self._titular = titular
+
+    @property
+    def cantidad(self):
+        return self._cantidad
+
+    @cantidad.setter
+    def cantidad(self, cantidad):
+        self._cantidad = cantidad
+
+    def mostrar(self):
+        print(f'Titular: {self.titular}')
+        print(f'Cantidad: {self.cantidad}')
+
+    def ingresar(self, cantidad):
+        if cantidad > 0:
+            self.cantidad += cantidad
+
+    def retirar(self, cantidad):
+        self.cantidad -= cantidad
+
+
+class CuentaJoven(Cuenta):
+    def __init__(self, titular, cantidad=0, bonificacion=0):
+        super().__init__(titular, cantidad)
+        self.bonificacion = bonificacion
+
+    @property
+    def bonificacion(self):
+        return self._bonificacion
+
+    @bonificacion.setter
+    def bonificacion(self, bonificacion):
+        self._bonificacion = bonificacion
+
+    def es_titular_valido(self):
+        return 18 <= self.titular.edad < 25
+
+    def retirar(self, cantidad):
+        if self.es_titular_valido():
+            super().retirar(cantidad)
+
+    def mostrar(self):
+        super().mostrar()
+        print(f'Cuenta Joven: Sí')
+        print(f'Bonificación: {self.bonificacion}%')
+
+
+cuenta = Cuenta('Victoria Khousnoulina', 1000)
+
+while True:
+    print('1. Mostrar información de la cuenta')
+    print('2. Ingresar dinero')
+    print('3. Retirar dinero')
+    print('4. Salir')
+    opcion = input('Elige una opción: ')
+
+    if opcion == '1':
+        cuenta.mostrar()
+    elif opcion == '2':
+        cantidad = float(input('Ingresa la cantidad a ingresar: '))
+        cuenta.ingresar(cantidad)
+    elif opcion == '3':
+        cantidad = float(input('Ingresa la cantidad a retirar: '))
+        cuenta.retirar(cantidad)
+    elif opcion == '4':
+        break
